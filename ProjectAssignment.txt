@@ -1,0 +1,87 @@
+1.POJO Class 
+===========
+@Data
+public class Contact{
+	private Integer contact_id;
+	private String contact_name;
+	private String contact_email;
+	private Long contact_phone;
+}
+
+
+2.Entity Class
+=============
+
+@Data
+@Entity
+@Table(name="contactTab")
+public class Contact{
+	@Id
+	@GeneratedValue
+	private Integer contact_id;
+	private String contact_name;
+	private String contact_email;
+	private Long contact_phone;
+}
+
+
+3.Persistent Layer
+----------------
+i)ContactEntity.java
+==================
+
+public interface ContactEntity{
+	public boolean save(Contact contact);
+	public List<Contact> getAllData();
+	public Contact getOneRecord(Integer id);
+	public boolean updateData(Contact contact);
+}
+
+ii)ContactRepo.java
+=================
+
+public ContactRepo extends JpaRepository<Contact , Integer>{
+	List<Contact> findById(Integer id);
+}
+
+4.Service Layer
+=============
+public interface ContactService{
+	public boolean save(Contact contact);
+	public List<Contact> getAllData();
+	public Contact getOneRecord(Integer id);
+	public boolean updateData(Contact contact);
+}
+
+5.ServiceImpl Layer
+=================
+public class ContactServiceImpl implement ContactService{
+	
+	@Autowired
+	private ContactEntity ContactEntityrepo;
+
+	public boolean save(Contact contact){
+		return repo.save(contact);	
+	}
+
+	public List<Contact> getAllData(){
+		List<Contact> contactList = repo.findAll();
+		return contactList;
+	}
+
+	public Contact getOneRecord(Integer id){
+		Contact contact=repo.findById();
+		return contact; 
+	}
+
+	public boolean updateData(Contact contact){
+		return repo.save(contact);
+	}	
+}
+
+6.Controller
+=============
+
+
+
+
